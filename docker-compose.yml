@@ -1,0 +1,81 @@
+version: '3'
+services:
+  movie-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      movie-db:
+        condition: service_started
+      redis-layer:
+        condition: service_started
+    environment: 
+      PORT: 80
+      POSTGRES_HOST: movie-db
+      POSTGRES_PORT: 5432
+      MOVIE_DB_PASSWORD: 'password123'
+      MOVIE_DB_USER: 'testUser'
+      MOVIE_DB_DATABASE: 'movie_db'
+      DB_LOGGING: 'true'
+      MOVIE_MIGRATIONS_DIR: 'dist/migrations/movie'
+      MOVIE_MIGRATIONS_FILES: 'dist/migrations/movie/*.js'
+      RUN_MIGRATIONS: 1
+      MIGRATIONS_LOGGING: 1
+      NODE_ENV: local
+      REDIS_HOST: redis-layer
+      REDIS_PORT: 6379
+      # TYPEORM_CONNECTION:  postgres
+      # TYPEORM_HOST: movie-db
+      # TYPEORM_USERNAME: 'testUser'
+      # TYPEORM_PASSWORD: 'password123'
+      # TYPEORM_DATABASE: movie_db
+      # TYPEORM_PORT: 5432
+      # TYPEORM_SYNCHRONIZE: 'false'
+      # TYPEORM_LOGGING: 'true'
+      # TYPEORM_ENTITIES: './entities/*.js'
+      # TYPEORM_MIGRATIONS: 'dist/migrations/movie/*.js'
+      # TYPEORM_MIGRATIONS_DIR: 'dist/migrations/movie'
+    networks:
+      - testnet
+    env_file:
+      - .env
+    ports:
+      - '9000:80'
+
+  redis-layer:
+    build: ./redis/.
+    restart: always
+    ports:
+      - '6390:6379'
+    networks:
+      - testnet
+    volumes:
+      - ./redisdata:/data
+    command: redis-server --appendonly yes
+
+  movie-db:
+    image: postgres:11.5
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 'password123'
+      POSTGRES_USER: 'testUser'
+      POSTGRES_DB: 'movie_db'
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - '5532:5432'
+    networks:
+      - testnet
+
+volumes:
+  pgdata:
+    external: false
+  exclude:
+
+networks:
+  testnet:
+    driver: bridge
+
