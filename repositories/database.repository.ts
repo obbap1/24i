@@ -10,7 +10,6 @@ export class Database {
         if(!this.dbConnection) {
             this.dbConnection = await createConnection(config)
         }
-        console.log({connection: this.dbConnection.options.entities})
         return this.dbConnection
     }
 

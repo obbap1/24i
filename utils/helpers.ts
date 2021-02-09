@@ -8,7 +8,7 @@ export async function fetchAndCacheData(movieId?: string) {
       // check cache for all
       const cachedData = movieId ? await cache.get(movieId) : await cache.get('all');
 
-      if(cachedData) return cachedData;
+    //   if(cachedData) return cachedData;
 
       const data = movieId ? await database.findOneMovie(movieId) : await database.findAll();
 

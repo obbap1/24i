@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   BaseEntity
 } from 'typeorm'
-import { IMovieImages } from '../interfaces/movie.interface';
 
 @Entity()
 export class Movie extends BaseEntity {

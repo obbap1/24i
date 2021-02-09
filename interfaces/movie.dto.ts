@@ -5,7 +5,6 @@ import {
     IsNumber,
     IsArray,
   } from 'class-validator';
-import { IMovieImages } from './movie.interface';
   
   export class MovieDTO {
     @IsString()

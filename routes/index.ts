@@ -19,7 +19,7 @@ router.get('/movies', async (req: express.Request, res: express.Response, next: 
 
 })
 
-router.get('/search', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+router.get('/search', async (req: express.Request, res: express.Response) => {
   try {
 
     const searchQuery = req.query.q as any;
@@ -35,7 +35,7 @@ router.get('/search', async (req: express.Request, res: express.Response, next: 
 
 })
 
-router.get('/populate', async(req: express.Request, res: express.Response, next: express.NextFunction) => {
+router.get('/populate', async(req: express.Request, res: express.Response) => {
   try{
     // seed data to the database
     await database.seedData()
@@ -47,7 +47,6 @@ router.get('/populate', async(req: express.Request, res: express.Response, next:
     return res.send({message: 'Data has been seeded to the database'})
 
   }catch(error) {
-    console.log({error})
     res.statusCode = 500;
     return res.send({message: error || 'Invalid request'});
   }
