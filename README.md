@@ -10,6 +10,8 @@ The `redis-service` runs on port `6390`.
 The `movie-api` runs on port `9000`.
 The project runs on `Typescript`
 
+It has `pagination`, `search` and `single movie id` queries.
+
 ## ORM
 This project uses `TypeORM`. To run migrations, please use:
 ```
