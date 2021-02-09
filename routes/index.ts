@@ -1,3 +1,4 @@
+import { isArray } from 'class-validator';
 import * as express from 'express';
 import { fetchAndCacheData, database, cache } from '../utils/helpers';
 const router = express.Router();
@@ -7,10 +8,11 @@ router.get('/movies', async (req: express.Request, res: express.Response, next: 
   try {
 
     const movieId = req.query.id as any;
+    const {limit, page} = req.query as any;
     
-    const data = await fetchAndCacheData(movieId)
+    const data = await fetchAndCacheData(movieId, limit, page)
 
-    return res.send({message: 'Data has been fetched successfully', data})
+    return res.send({message: 'Data has been fetched successfully', data: !movieId ? data[0] : data, total: !movieId ? data[1] : 1})
 
   }catch(error) {
     res.statusCode = 500;

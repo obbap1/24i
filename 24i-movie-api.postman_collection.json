@@ -29,14 +29,21 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9000/movies",
+					"raw": "http://localhost:9000/movies/?limit=2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "9000",
 					"path": [
-						"movies"
+						"movies",
+						""
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						}
 					]
 				}
 			},
@@ -82,6 +89,30 @@
 					"port": "9000",
 					"path": [
 						"populate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9000/search?q=G",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "G"
+						}
 					]
 				}
 			},

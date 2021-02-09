@@ -18,13 +18,13 @@ export class Database {
         return this.dbConnection.getRepository(Movie).findOne(id)
     }
 
-    async findAll(take = 0, skip = 0) {
+    async findAll(take = 0, page = 0) {
         if(!this.dbConnection) await this.setupConnection()
-        take = take || 2;
-        skip = skip || 2;
+        take = take || 3;
+        page = page && page > 1 ? page * take : 1 
         return this.dbConnection.getRepository(Movie).findAndCount({
             take,
-            skip
+            skip: page
         })
     }
 

@@ -20,8 +20,10 @@ paths:
   /movies:
     get:
       summary: Returns swagger documentation.
-      description: Accepts an optional query id to get a single movie.
+      description: Accepts an optional query id to get a single movie, optional limit to limit response and page for pagination.
       query: id
+      query: limit
+      query: page
       produces:
         - application/json
       responses:
@@ -32,6 +34,17 @@ paths:
     post:
       summary: Populates the db with seed data.
       description: Optional extended description in Markdown.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+
+  /search:
+    get:
+      summary: Filter result by movie name.
+      description: Optional extended description in Markdown.
+      query: q
       produces:
         - application/json
       responses:

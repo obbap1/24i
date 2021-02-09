@@ -4,15 +4,13 @@ import {Cache} from '../repositories/cache.repository';
 const database = new Database()
 const cache = new Cache()
 
-export async function fetchAndCacheData(movieId?: string) {
+export async function fetchAndCacheData(movieId?: string, limit?: number, page?: number) {
       // check cache for all
       const cachedData = movieId ? await cache.get(movieId) : await cache.get('all');
 
-    //   if(cachedData) return cachedData;
+      if(cachedData) return cachedData;
 
-      const data = movieId ? await database.findOneMovie(movieId) : await database.findAll();
-
-      console.log({data})
+      const data = movieId ? await database.findOneMovie(movieId) : await database.findAll(limit, page);
 
       const key = movieId || 'all'
 

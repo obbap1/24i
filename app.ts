@@ -9,7 +9,6 @@ import logger from 'morgan';
 
 import cors from 'cors';
 import * as YAML from 'yamljs';
-import {pagination} from 'typeorm-pagination'
 
 // setup swagger documentation
 import * as swaggerUi from 'swagger-ui-express';
@@ -18,6 +17,7 @@ const swaggerDocument = YAML.load('./swagger.yaml');
 import { router as indexRouter } from './routes/index';
 
 const app = express();
+
 
 
 if (!process.env.PORT) {
@@ -31,7 +31,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(cors());
-app.use(pagination); 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(logger('dev'));
 app.use(express.json());
@@ -47,7 +46,7 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
