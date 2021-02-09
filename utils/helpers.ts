@@ -12,6 +12,8 @@ export async function fetchAndCacheData(movieId?: string) {
 
       const data = movieId ? await database.findOneMovie(movieId) : await database.findAll();
 
+      console.log({data})
+
       const key = movieId || 'all'
 
       // cache data

@@ -1,5 +1,5 @@
 import { Movie } from "../entities/movie.entity";
-import {createConnection, Connection} from "typeorm";
+import {createConnection, Connection, Like} from "typeorm";
 import { mockMovieData } from "../utils/mock-data";
 import * as config from '../utils/ormconfig';
 
@@ -19,9 +19,21 @@ export class Database {
         return this.dbConnection.getRepository(Movie).findOne(id)
     }
 
-    async findAll() {
+    async findAll(take = 0, skip = 0) {
         if(!this.dbConnection) await this.setupConnection()
-        return this.dbConnection.getRepository(Movie).find()
+        take = take || 2;
+        skip = skip || 2;
+        return this.dbConnection.getRepository(Movie).findAndCount({
+            take,
+            skip
+        })
+    }
+
+    async search(searchQuery: string) {
+        if(!this.dbConnection) await this.setupConnection()
+        return this.dbConnection.getRepository(Movie).find({
+            where: {title: Like(`${searchQuery}%`)}
+        })
     }
 
     async seedData() {
