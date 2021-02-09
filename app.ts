@@ -19,7 +19,6 @@ import { router as indexRouter } from './routes/index';
 
 const app = express();
 
-console.log({port: process.env.PORT})
 
 if (!process.env.PORT) {
   process.exit(1);
